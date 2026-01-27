@@ -104,6 +104,9 @@ await using session4 = resumeSession(agentId, { defaultConversation: true });
 
 // Resume last used session (agent + conversation)
 await using session5 = createSession({ continue: true });
+
+// Create new agent with a new (non-default) conversation
+await using session6 = createSession({ newConversation: true });
 ```
 
 **Key concepts:**
