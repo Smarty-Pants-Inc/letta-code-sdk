@@ -1,0 +1,40 @@
+{
+  "name": "@letta-ai/letta-code-sdk",
+  "version": "0.0.1",
+  "description": "SDK for programmatic control of Letta Code CLI",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "bun run build.ts",
+    "dev": "bun run build.ts --watch",
+    "check": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/letta-ai/letta-code-sdk"
+  },
+  "dependencies": {
+    "@letta-ai/letta-code": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0"
+}
