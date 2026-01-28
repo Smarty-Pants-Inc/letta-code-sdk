@@ -246,6 +246,13 @@ export async function showStatus(state: BugFixerState): Promise<void> {
 }
 
 /**
+ * Say hello
+ */
+export function sayHello(): void {
+  console.log('Hello');
+}
+
+/**
  * Reset state
  */
 export async function reset(): Promise<void> {

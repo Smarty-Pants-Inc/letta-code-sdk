@@ -66,16 +66,16 @@ async function main() {
 
   // Get or create the agent
   const agent = await getOrCreateAgent(state);
-  
-  // Save agent ID if new
+
+  await generateReleaseNotes(agent, state, fromRef, toRef, values.output);
+
+  // Save agent ID after first interaction (when it becomes available)
   if (!state.agentId && agent.agentId) {
     state.agentId = agent.agentId;
     await saveState(state);
-    console.log(`\x1b[90m[Agent: ${agent.agentId}]\x1b[0m`);
+    console.log(`\x1b[90m[Agent saved: ${agent.agentId}]\x1b[0m`);
     console.log(`\x1b[90m[→ https://app.letta.com/agents/${agent.agentId}]\x1b[0m\n`);
   }
-
-  await generateReleaseNotes(agent, state, fromRef, toRef, values.output);
 
   agent.close();
 }

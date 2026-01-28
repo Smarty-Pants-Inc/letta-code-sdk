@@ -21,6 +21,7 @@ import {
   interactiveMode,
   showStatus,
   reset,
+  sayHello,
 } from './fixer.js';
 
 async function main() {
@@ -53,14 +54,6 @@ async function main() {
 
   // Get or create the agent
   const agent = await getOrCreateAgent(state);
-  
-  // Save agent ID if new
-  if (!state.agentId && agent.agentId) {
-    state.agentId = agent.agentId;
-    await saveState(state);
-    console.log(`\x1b[90m[Agent: ${agent.agentId}]\x1b[0m`);
-    console.log(`\x1b[90m[→ https://app.letta.com/agents/${agent.agentId}]\x1b[0m\n`);
-  }
 
   if (positionals.length > 0) {
     // Fix the specified bug
@@ -69,6 +62,14 @@ async function main() {
   } else {
     // Interactive mode
     await interactiveMode(agent, state);
+  }
+
+  // Save agent ID after first interaction (when it becomes available)
+  if (!state.agentId && agent.agentId) {
+    state.agentId = agent.agentId;
+    await saveState(state);
+    console.log(`\x1b[90m[Agent saved: ${agent.agentId}]\x1b[0m`);
+    console.log(`\x1b[90m[→ https://app.letta.com/agents/${agent.agentId}]\x1b[0m\n`);
   }
 
   agent.close();
