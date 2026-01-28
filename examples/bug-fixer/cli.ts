@@ -22,6 +22,7 @@ import {
   showStatus,
   reset,
   sayHello,
+  listFilesInSrc,
 } from './fixer.js';
 
 async function main() {
@@ -31,6 +32,7 @@ async function main() {
       status: { type: 'boolean', default: false },
       reset: { type: 'boolean', default: false },
       help: { type: 'boolean', short: 'h', default: false },
+      list: { type: 'boolean', default: false },
     },
     allowPositionals: true,
   });
@@ -42,6 +44,11 @@ async function main() {
 
   if (values.reset) {
     await reset();
+    return;
+  }
+
+  if (values.list) {
+    await listFilesInSrc();
     return;
   }
 
@@ -86,6 +93,7 @@ USAGE:
   bun cli.ts                       Interactive mode
   bun cli.ts --status              Show agent status
   bun cli.ts --reset               Reset agent (forget everything)
+  bun cli.ts --list                List files in src/
   bun cli.ts -h, --help            Show this help
 
 EXAMPLES:

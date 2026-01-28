@@ -147,17 +147,21 @@ export async function chat(
   
   let response = '';
   const printer = onOutput || createStreamPrinter();
+  let lastToolName = '';
   
   for await (const msg of session.stream()) {
     if (msg.type === 'assistant') {
       response += msg.content;
       printer(msg.content);
-    } else if (msg.type === 'tool_call') {
-      // @ts-ignore - tool name might be in different places
-      const toolName = msg.name || msg.tool || 'tool';
-      console.log(`\n${COLORS.system}[${toolName}]${COLORS.reset}`);
+      lastToolName = ''; // Reset after assistant output
+    } else if (msg.type === 'tool_call' && 'toolName' in msg) {
+      // Only show tool name if different from last (reduces spam)
+      if (msg.toolName !== lastToolName) {
+        console.log(`\n${COLORS.system}[${msg.toolName}]${COLORS.reset}`);
+        lastToolName = msg.toolName;
+      }
     } else if (msg.type === 'tool_result') {
-      console.log(`${COLORS.system}[done]${COLORS.reset}\n`);
+      // Don't print anything for tool results - cleaner output
     }
   }
   
@@ -250,6 +254,25 @@ export async function showStatus(state: BugFixerState): Promise<void> {
  */
 export function sayHello(): void {
   console.log('Hello');
+}
+
+/**
+ * List files in src/ directory
+ */
+export async function listFilesInSrc(): Promise<void> {
+  const srcPath = '../../src';
+  const fs = await import('node:fs/promises');
+  
+  try {
+    const files = await fs.readdir(srcPath);
+    console.log('\nFiles in src/:\n');
+    files.forEach((file) => {
+      console.log(`  ${file}`);
+    });
+    console.log('');
+  } catch (error) {
+    console.error('Error reading src directory:', error);
+  }
 }
 
 /**
