@@ -12,5 +12,5 @@ export interface ReleaseNotesConfig {
 }
 
 export const DEFAULT_CONFIG: ReleaseNotesConfig = {
-  model: 'sonnet',
+  model: 'haiku',
 };

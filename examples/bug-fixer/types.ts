@@ -12,5 +12,5 @@ export interface BugFixerConfig {
 }
 
 export const DEFAULT_CONFIG: BugFixerConfig = {
-  model: 'sonnet',
+  model: 'haiku',
 };

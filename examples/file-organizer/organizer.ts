@@ -142,7 +142,7 @@ export async function chat(
   let response = '';
   const printer = onOutput || createStreamPrinter();
   
-  for await (const msg of session.receive()) {
+  for await (const msg of session.stream()) {
     if (msg.type === 'assistant') {
       response += msg.content;
       printer(msg.content);

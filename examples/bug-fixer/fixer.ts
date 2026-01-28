@@ -148,12 +148,14 @@ export async function chat(
   let response = '';
   const printer = onOutput || createStreamPrinter();
   
-  for await (const msg of session.receive()) {
+  for await (const msg of session.stream()) {
     if (msg.type === 'assistant') {
       response += msg.content;
       printer(msg.content);
     } else if (msg.type === 'tool_call') {
-      console.log(`\n${COLORS.system}[${msg.name}]${COLORS.reset}`);
+      // @ts-ignore - tool name might be in different places
+      const toolName = msg.name || msg.tool || 'tool';
+      console.log(`\n${COLORS.system}[${toolName}]${COLORS.reset}`);
     } else if (msg.type === 'tool_result') {
       console.log(`${COLORS.system}[done]${COLORS.reset}\n`);
     }

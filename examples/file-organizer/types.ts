@@ -12,5 +12,5 @@ export interface FileOrganizerConfig {
 }
 
 export const DEFAULT_CONFIG: FileOrganizerConfig = {
-  model: 'sonnet',
+  model: 'haiku',
 };
