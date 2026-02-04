@@ -47,7 +47,7 @@ for await (const msg of session.stream()) {
 }
 ```
 
-By default, `resumeSession(agentId)` continues the agent’s most recent conversation. To start a fresh thread, use `createSession(agentId)` (see docs).
+By default, `resumeSession(agentId)` continues the agent’s default conversation. To start a fresh thread, use `createSession(agentId)` (see docs).
 
 ## Links
 
