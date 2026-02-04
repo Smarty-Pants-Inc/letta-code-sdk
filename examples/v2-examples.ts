@@ -557,8 +557,8 @@ async function testMemoryConfig() {
 
   // Test 2: Specific preset blocks only
   console.log('Testing specific preset blocks...');
-  const specificResult = await runWithMemory('List your memory block labels', ['project']);
-  console.log(`  specific blocks [project]: ${specificResult.success ? 'PASS' : 'FAIL'}`);
+  const specificResult = await runWithMemory('List your memory block labels', ['persona']);
+  console.log(`  specific blocks [persona]: ${specificResult.success ? 'PASS' : 'FAIL'}`);
 
   // Test 3: Custom blocks
   console.log('Testing custom memory blocks...');
@@ -570,13 +570,13 @@ async function testMemoryConfig() {
   console.log(`  custom blocks: ${customResult.success ? 'PASS' : 'FAIL'}`);
   console.log(`    Response is concise: ${isConcise ? 'yes' : 'check'}`);
 
-  // Test 4: Mixed preset and custom blocks
-  console.log('Testing mixed blocks (preset + custom)...');
-  const mixedResult = await runWithMemory(
+  // Test 4: Multiple preset blocks
+  console.log('Testing multiple preset blocks...');
+  const multipleResult = await runWithMemory(
     'List your memory blocks',
-    ['project', { label: 'custom-context', value: 'This is a test context block.' }]
+    ['persona', 'human']
   );
-  console.log(`  mixed blocks: ${mixedResult.success ? 'PASS' : 'FAIL'}`);
+  console.log(`  multiple presets: ${multipleResult.success ? 'PASS' : 'FAIL'}`);
 
   // Test 5: Empty memory (core blocks only)
   console.log('Testing empty memory (core only)...');
@@ -620,16 +620,16 @@ async function testConvenienceProps() {
   console.log(`  persona: ${personaResult.success ? 'PASS' : 'FAIL'}`);
   console.log(`    Response mentions cooking/Italian: ${hasItalian ? 'yes' : 'check'}`);
 
-  // Test 2: project prop
-  console.log('Testing project prop...');
+  // Test 2: project block (custom)
+  console.log('Testing project block (custom)...');
   const projectResult = await runWithProps(
     'What project are you helping with?',
-    { project: 'A React Native mobile app for tracking daily habits.' }
+    { memory: [{ label: 'project', value: 'A React Native mobile app for tracking daily habits.' }] }
   );
   const hasProject = projectResult.result.toLowerCase().includes('react') ||
                      projectResult.result.toLowerCase().includes('habit') ||
                      projectResult.result.toLowerCase().includes('mobile');
-  console.log(`  project: ${projectResult.success ? 'PASS' : 'FAIL'}`);
+  console.log(`  project (custom): ${projectResult.success ? 'PASS' : 'FAIL'}`);
   console.log(`    Response mentions project: ${hasProject ? 'yes' : 'check'}`);
 
   // Test 3: human prop
@@ -646,8 +646,12 @@ async function testConvenienceProps() {
   // Test 4: Multiple convenience props together
   console.log('Testing multiple convenience props...');
   const multiResult = await runWithProps(
-    'Introduce yourself and the project briefly',
-    { persona: 'You are a friendly code reviewer.', project: 'FastAPI backend service.', human: 'Name: Alice.' }
+    'Introduce yourself briefly',
+    { 
+      memory: ['persona', 'human'],
+      persona: 'You are a friendly code reviewer.',
+      human: 'Name: Alice.'
+    }
   );
   console.log(`  multiple props: ${multiResult.success ? 'PASS' : 'FAIL'}`);
   console.log(`    Response: ${multiResult.result.slice(0, 100)}...`);
@@ -656,7 +660,7 @@ async function testConvenienceProps() {
   console.log('Testing convenience props with memory config...');
   const combinedResult = await runWithProps(
     'What is in your persona block?',
-    { memory: ['persona', 'project'], persona: 'You are a database expert specializing in PostgreSQL.' }
+    { memory: ['persona'], persona: 'You are a database expert specializing in PostgreSQL.' }
   );
   const hasDB = combinedResult.result.toLowerCase().includes('database') ||
                 combinedResult.result.toLowerCase().includes('postgresql');
