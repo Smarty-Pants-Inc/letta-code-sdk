@@ -210,6 +210,7 @@ export interface InternalSessionOptions {
 
   // Permissions
   allowedTools?: string[];
+  disallowedTools?: string[];
   permissionMode?: PermissionMode;
   canUseTool?: CanUseToolCallback;
 
@@ -220,7 +221,11 @@ export interface InternalSessionOptions {
   cwd?: string;
 }
 
-export type PermissionMode = "default" | "acceptEdits" | "bypassPermissions";
+export type PermissionMode =
+  | "default"
+  | "acceptEdits"
+  | "plan"
+  | "bypassPermissions";
 
 /**
  * Options for createSession() and resumeSession() - restricted to options that can be applied to existing agents (LRU/Memo).
@@ -235,6 +240,9 @@ export interface CreateSessionOptions {
 
   /** List of allowed tool names */
   allowedTools?: string[];
+
+  /** List of disallowed tool names */
+  disallowedTools?: string[];
 
   /** Permission mode */
   permissionMode?: PermissionMode;
@@ -286,6 +294,9 @@ export interface CreateAgentOptions {
 
   /** List of allowed tool names */
   allowedTools?: string[];
+
+  /** List of disallowed tool names */
+  disallowedTools?: string[];
 
   /** Permission mode */
   permissionMode?: PermissionMode;
