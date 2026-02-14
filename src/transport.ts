@@ -362,6 +362,11 @@ export class SubprocessTransport {
       args.push("--disallowedTools", this.options.disallowedTools.join(","));
     }
 
+    // Tags
+    if (this.options.tags && this.options.tags.length > 0) {
+      args.push("--tags", this.options.tags.join(","));
+    }
+
     return args;
   }
 

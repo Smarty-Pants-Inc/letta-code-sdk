@@ -148,16 +148,16 @@ export type AgentToolUpdateCallback<T> = (update: Partial<AgentToolResult<T>>) =
 export interface AgentTool<TParams, TResult> {
   /** Display label */
   label: string;
-  
+
   /** Tool name (used in API calls) */
   name: string;
-  
+
   /** Description shown to the model */
   description: string;
-  
+
   /** JSON Schema for parameters (TypeBox or plain object) */
   parameters: TParams;
-  
+
   /** Execution function */
   execute: (
     toolCallId: string,
@@ -202,11 +202,14 @@ export interface InternalSessionOptions {
   model?: string;
   embedding?: string;
   systemPrompt?: SystemPromptConfig;
-  
+
   // Memory blocks (only for new agents)
   memory?: MemoryItem[];
   persona?: string;  // Convenience for persona block
   human?: string;    // Convenience for human block
+
+  // Tags (only for new agents)
+  tags?: string[];
 
   // Permissions
   allowedTools?: string[];
@@ -312,6 +315,9 @@ export interface CreateAgentOptions {
    * These tools are registered with the CLI and executed when the LLM calls them.
    */
   tools?: AnyAgentTool[];
+
+  /** Tags to organize and categorize the agent */
+  tags?: string[];
 }
 
 // ═══════════════════════════════════════════════════════════════
