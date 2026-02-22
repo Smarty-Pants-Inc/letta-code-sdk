@@ -259,6 +259,9 @@ export interface InternalSessionOptions {
 
   // Process settings
   cwd?: string;
+
+  /** If true, pass --include-partial-messages to CLI for token-level stream_event chunks */
+  includePartialMessages?: boolean;
 }
 
 export type PermissionMode =
@@ -321,6 +324,12 @@ export interface CreateSessionOptions {
    * These tools are registered with the CLI and executed when the LLM calls them.
    */
   tools?: AnyAgentTool[];
+
+  /**
+   * If true, pass --include-partial-messages to CLI to receive token-level
+   * stream_event chunks for incremental assistant/reasoning rendering.
+   */
+  includePartialMessages?: boolean;
 }
 
 /**

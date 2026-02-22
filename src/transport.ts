@@ -255,6 +255,11 @@ export class SubprocessTransport {
       args.push("-m", this.options.model);
     }
 
+    // Partial message streaming (token-level stream_event chunks)
+    if (this.options.includePartialMessages) {
+      args.push("--include-partial-messages");
+    }
+
     // Embedding model
     if (this.options.embedding) {
       args.push("--embedding", this.options.embedding);
